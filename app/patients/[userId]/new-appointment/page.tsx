@@ -1,10 +1,14 @@
 import Image from "next/image";
-
 import { AppointmentForm } from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
-import PatientForm from "@/components/forms/PatientForm";
 
-export default async function NewAppointment({ params: { userId } }: SearchParamProps) {
+export default async function NewAppointment({
+  params,
+}: {
+  params: { userId: string };
+}) {
+  const { userId } = params; // ✅ This is fine unless you're using Vercel's SSG
+
   const patient = await getPatient(userId);
 
   return (
@@ -25,7 +29,9 @@ export default async function NewAppointment({ params: { userId } }: SearchParam
             type="create"
           />
 
-          <p className="copyright mt-10 py-12">© {new Date().getFullYear()} CarePluse</p>
+          <p className="copyright mt-10 py-12">
+            © {new Date().getFullYear()} CarePluse
+          </p>
         </div>
       </section>
 
@@ -38,5 +44,4 @@ export default async function NewAppointment({ params: { userId } }: SearchParam
       />
     </div>
   );
-};
-
+}
